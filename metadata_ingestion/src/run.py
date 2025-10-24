@@ -1,4 +1,3 @@
-import argparse
 import logging
 import sys
 from pathlib import Path
@@ -15,25 +14,12 @@ if str(src_path) not in sys.path:
 
 from ingestion_framework.framework import run
 
-
-def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Metadata ingestion entry point.")
-    parser.add_argument(
-        "--sources_yaml",
-        default=str(repo_root / "metadata" / "sources.yaml"),
-        help="Ruta al archivo YAML con la configuración de fuentes.",
-    )
-    parser.add_argument(
-        "--env",
-        default="dev",
-        help="Nombre del entorno (por ejemplo: dev, qa, prod).",
-    )
-    return parser.parse_args(argv)
+SOURCES_YAML_PATH = (
+    Path(__file__).resolve().parents[1] / "metadata" / "sources.yaml"
+).resolve()
 
 
 def main(argv: Optional[List[str]] = None) -> None:
-    args = parse_args(argv)
-
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s %(levelname)s [%(name)s] %(message)s",
@@ -63,7 +49,7 @@ def main(argv: Optional[List[str]] = None) -> None:
         "GfPfsGtoFRGoIbJ3puTo+mIJnjGlaEPCPxKvpHcz4+yeghcZn5m8HgsSoD9fT4743pyr/Vn6TGWb+AStn1I3og=="
         #os.environ["AZURE_STORAGE_KEY"],
         )
-    run(spark, args.sources_yaml, env=args.env)
+    run(spark, SOURCES_YAML_PATH)
     print("PoC finished successfully.")
 
 

@@ -10,12 +10,11 @@ from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
-def run(spark: SparkSession, sources_yaml: str, env: str = "dev"):
+def run(spark: SparkSession, sources_yaml: str):
     ss = load_sources(sources_yaml)
     cfg = Config.from_defaults(raw_base=ss.defaults["raw_base"],
                                hub_base=ss.defaults["hub_base"],
-                               checkpoint_base=ss.defaults["checkpoint_base"],
-                               env=env)
+                               checkpoint_base=ss.defaults["checkpoint_base"])
     for s in ss.sources:
         if not s.enabled:
             logger.info("Source %s disabled; skipping.", s.id)
