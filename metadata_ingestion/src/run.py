@@ -6,8 +6,11 @@ from typing import List, Optional
 from delta import configure_spark_with_delta_pip
 from pyspark.sql import SparkSession
 
-# Ensure local runs can import packages living under src/
-repo_root = Path(__file__).resolve().parents[1]
+# Ensures local and remote databricks execution can find src/
+try:
+    repo_root = Path(__file__).resolve().parents[1]
+except NameError:
+    repo_root = Path.cwd().resolve()
 src_path = repo_root / "src"
 if str(src_path) not in sys.path:
     sys.path.insert(0, str(src_path))
@@ -15,7 +18,7 @@ if str(src_path) not in sys.path:
 from ingestion_framework.framework import run
 
 SOURCES_YAML_PATH = (
-    Path(__file__).resolve().parents[1] / "metadata" / "sources.yaml"
+    repo_root / "metadata" / "sources.yaml"
 ).resolve()
 
 
