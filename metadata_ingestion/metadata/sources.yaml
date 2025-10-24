@@ -1,8 +1,8 @@
 version: 1
 defaults:
-  raw_base: ./_lake/raw #wasbs://raw@storagepoc129.blob.core.windows.net/raw  #./_lake/raw 
-  hub_base: ./_lake/hub #wasbs://hub@storagepoc129.blob.core.windows.net/hub #./_lake/hub 
-  checkpoint_base: ./_lake/checkpoints #wasbs://checkpoints@storagepoc129.blob.core.windows.net/checkpoints # ./_lake/_checkpoints
+  raw_base: wasbs://raw@storagepoc129.blob.core.windows.net/raw  #./_lake/raw 
+  hub_base: wasbs://hub@storagepoc129.blob.core.windows.net/hub #./_lake/hub 
+  checkpoint_base: wasbs://checkpoints@storagepoc129.blob.core.windows.net/checkpoints # ./_lake/_checkpoints
   domain: sales
 
 sources:
