@@ -1,0 +1,4 @@
+-- This is a placeholder to signal that we expect a SQLite file at data/samples/contoso.sqlite
+-- Create it locally with:
+--   sqlite3 data/samples/contoso.sqlite 'CREATE TABLE products (product_id INT PRIMARY KEY, name TEXT, price DOUBLE);'
+--   sqlite3 data/samples/contoso.sqlite "INSERT INTO products VALUES (10,'Phone',699.0),(20,'Headphones',199.0),(30,'Tablet',499.0);"

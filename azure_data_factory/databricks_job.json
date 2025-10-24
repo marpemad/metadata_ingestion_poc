@@ -1,0 +1,30 @@
+{
+  "name": "Contoso_PoC_Ingestion",
+  "tasks": [
+    {
+      "task_key": "run",
+      "notebook_task": {
+        "notebook_path": "notebooks/run.py",
+        "base_parameters": {
+          "sources_yaml": "metadata/sources.yaml",
+          "env": "dev"
+        }
+      },
+      "job_cluster_key": "poc_cluster",
+      "timeout_seconds": 3600
+    }
+  ],
+  "job_clusters": [
+    {
+      "job_cluster_key": "poc_cluster",
+      "new_cluster": {
+        "spark_version": "14.3.x-scala2.12",
+        "node_type_id": "Standard_DS3_v2",
+        "num_workers": 1,
+        "spark_conf": {
+          "spark.databricks.delta.schema.autoMerge.enabled": "true"
+        }
+      }
+    }
+  ]
+}

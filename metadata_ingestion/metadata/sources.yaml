@@ -1,0 +1,58 @@
+version: 1
+defaults:
+  raw_base: ./_lake/raw #wasbs://raw@storagepoc129.blob.core.windows.net/raw  #./_lake/raw 
+  hub_base: ./_lake/hub #wasbs://hub@storagepoc129.blob.core.windows.net/hub #./_lake/hub 
+  checkpoint_base: ./_lake/checkpoints #wasbs://checkpoints@storagepoc129.blob.core.windows.net/checkpoints # ./_lake/_checkpoints
+  domain: sales
+
+sources:
+  - id: customers_csv
+    enabled: true
+    type: csv
+    domain: sales
+    entity: customers
+    options:
+      path: metadata_ingestion/data/samples/customers.csv             # dbfs:/poc/metadata_ingestion/data/samples/customers.csv
+      header: true
+      inferSchema: true
+      mode: PERMISSIVE
+    raw_partitions: ["ingest_date"]
+    hub_primary_keys: ["customer_id"]
+
+  - id: orders_json
+    enabled: true
+    type: json
+    domain: sales
+    entity: orders
+    options:
+      path: metadata_ingestion/data/samples/orders.json
+      multiline: false
+    raw_partitions: ["ingest_date"]
+    hub_primary_keys: ["order_id"]
+
+  - id: products_jdbc
+    enabled: false
+    type: jdbc
+    domain: sales
+    entity: products
+    options:
+      url: jdbc:sqlite:metadata_ingestion/data/samples/contoso.sqlite
+      driver: org.sqlite.JDBC
+      dbtable: products
+      user: ""
+      password: ""
+    raw_partitions: ["ingest_date"]
+    hub_primary_keys: ["product_id"]
+
+  - id: cube_sales_olap
+    enabled: true   
+    type: olap
+    domain: sales
+    entity: cube_sales
+    options:
+      xmla_endpoint: "powerbi://api.powerbi.com/v1.0/myorg/YourWorkspace"
+      database: "ContosoSalesTabular"
+      mdx: "SELECT NON EMPTY {{[Date].[Calendar].[Calendar Year].Members}} ON COLUMNS, NON EMPTY {{[Product].[Category].Members}} ON ROWS FROM [Sales]"
+      fallback_csv_path: metadata_ingestion/data/samples/cube_sales_fallback.csv # No XMLA config, use the sample CSV fallback
+    raw_partitions: ["ingest_date"]
+    hub_primary_keys: ["category","calendar_year"]

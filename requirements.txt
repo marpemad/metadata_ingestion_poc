@@ -1,0 +1,5 @@
+# Minimal: Databricks clusters already include pyspark.
+pyspark>=3.5.0
+pyyaml>=6.0.1
+delta-spark>=3.2.0
+pydantic>=2.8.2
