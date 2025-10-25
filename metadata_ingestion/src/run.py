@@ -49,7 +49,7 @@ def main(argv: Optional[List[str]] = None) -> None:
 
     spark.conf.set(
         "fs.azure.account.key.storagepoc129.blob.core.windows.net",
-        "GfPfsGtoFRGoIbJ3puTo+mIJnjGlaEPCPxKvpHcz4+yeghcZn5m8HgsSoD9fT4743pyr/Vn6TGWb+AStn1I3og=="
+        AZURE_STORAGE_KEY,
         #os.environ["AZURE_STORAGE_KEY"],
         )
     run(spark, SOURCES_YAML_PATH)
